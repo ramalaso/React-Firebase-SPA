@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import firebase from './Firebase'
 import './App.css';
 import Home from './Home';
 import Navigation from './Navigation';
@@ -7,12 +8,20 @@ import {Router} from '@reach/router'
 import Login from './Login';
 import Meetings from './Meetings';
 import Register from './Register';
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
         user: "Ramalaso"
     }
+  }
+componentDidMount() {
+  const ref = firebase.database().ref('user')
+  ref.on('value', snapshot => {
+    let FBUser = snapshot.val();
+    this.setState({user: FBUser})
+  })
 }
   render() {
     return (
